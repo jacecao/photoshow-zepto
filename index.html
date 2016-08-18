@@ -36,9 +36,11 @@
 	</ul>
 
 	<div id="large-image" class="show-image">
-		<img class="showImg" src="images/1.large.jpg" alt="">
+		<img class="showImg" alt=""/>
 	</div>
+	
 
+	<script src='js/touch.js'></script>
 	<script>
 
 		var imgs = 17;
@@ -61,6 +63,7 @@
 				
 				var imageObj = new Image();
 				imageObj.index = i;
+
 				imageObj.onload = function(){
 					var cvs = $('#cvs_'+this.index)[0].getContext('2d');
 					cvs.width = this.width;
@@ -79,7 +82,7 @@
 		var loadImg = function(id){
 			
 			largeImg.css({
-				width: win.windth(),
+				width: win.width(),
 				height: win.height()
 			}).show();
 
@@ -103,7 +106,7 @@
 				**当图片是一个宽度大于高度的图片是使用paddingTop
 				**/ 
 				var paddingLeft = parseInt( (winW-realW)/2 );
-				var paddingTop = parseInt( (winH-realh)/2 );
+				var paddingTop = parseInt( (winH-realH)/2 );
 				// 设置css样式
 				var css = [
 					{
@@ -116,6 +119,7 @@
 				];
 
 				showImg.attr('src',imgSrc).css( h/w>1.2 ? css[0] : css[1]);
+
 
 			};
 
