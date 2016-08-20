@@ -7,7 +7,7 @@
 	<script src="js/zepto.min.js"></script>
 	<link rel="stylesheet" href="css/animate.css">
 	<style type="text/css">
-		html,body,ul{
+		html,body,ul,p{
 			margin: 0;
 			padding: 0;
 		}
@@ -28,6 +28,17 @@
 			background: #080115;
 			display: none;
 		}
+		.desc{
+			position: absolute;
+			bottom: 33px;
+			left: 0;
+			color: white;
+    		text-align: left;
+    		padding: 10px;
+    		font-size: 18px;
+    		letter-spacing: 2px;
+    		display: none;
+		}
 	</style>
 </head>
 <body>
@@ -35,30 +46,44 @@
 	<ul id="container">
 	</ul>
 
-	<div id="large-image" class="show-image">
-		<img class="showImg" alt=""/>
+	<div id="large-image" class="animated show-image">
+		<img class="animated showImg" alt=""/>
+		<p class="animated desc">zhesi yigeduan</p>
 	</div>
 	
 
 	<script src='js/touch.js'></script>
 	<script>
 
-		var imgs = 17;
+		$.ajax({
+			url: '/data/imgdata.json',
+			dataType: 'json',
+			success: function( data ){
+				render(data);
+			},
+			error: function( error ){
+				console.log(error);
+			}
+		});
+
+		var imgs = null;
 		var padding = 2;
 		var column = 4;
 		var win = $(window);
 		var container = $('#container');
 		var showImg = $('.showImg');
 		var largeImg = $('#large-image');
+		var index = null;
 
-		var render = function(){
+		var render = function( data ){
 			var winWidth = win.width();
 			var liWidth = Math.floor( (winWidth - padding*3)/column );
 			var model = '';
 			
-			for( var i = 1; i <= imgs; i++ ){
+			imgs = data;
+			for( var i = 0; i < imgs.length; i++ ){
 				var p = i%column === 1? 0 : padding;
-				var imgSrc = 'images/'+ i +'.jpg';
+				var imgSrc = 'images/'+ imgs[i].minFile;
 				model += '<li data-id="'+i+'" class="animated zoomIn" style="width:'+liWidth+'px; height:'+liWidth+'px; padding-left:'+ p +'px;padding-top:'+ padding +'px;"><canvas id="cvs_'+ i +'"></canvas></li>';
 				
 				var imageObj = new Image();
@@ -79,14 +104,10 @@
 
 		render();
 
-		var loadImg = function(id){
+		var loadImg = function(id, callback){
 			
-			largeImg.css({
-				width: win.width(),
-				height: win.height()
-			}).show();
-
-			var imgSrc = 'images/'+ id +'.large.jpg';
+			var imgSrc = 'images/'+ imgs[id].maxFile;
+			var title = imgs[id].desc;
 			var imageObj = new Image();
 			imageObj.onload = function(){
 				var w = this.width;
@@ -112,24 +133,91 @@
 					{
 						'height': winH,
 						'padding-left': paddingLeft
-					},{
+					},
+					{
 						'width': winW,
 						'padding-top': paddingTop
 					}
 				];
-
-				showImg.attr('src',imgSrc).css( h/w>1.2 ? css[0] : css[1]);
-
-
+				showImg.css({
+					'width': 'auto',
+					'height': 'auto',
+					'padding-left': '0',
+					'padding-top': '0'
+				});
+				showImg.attr({'src': imgSrc}).css( h/w>1.2 ? css[0] : css[1]);
+				$('.desc').html( title );
+				callback&&callback();
 			};
 
 			imageObj.src = imgSrc;
+
 		};
+
 
 		// 绑定事件代理，加快响应
 		container.delegate('li', 'tap', function(){
-			var _id = $(this).attr('data-id');
+
+			largeImg.css({
+				width: win.width(),
+				height: win.height()
+			}).show().addClass('zoomIn');
+
+			var _id = index = $(this).attr('data-id');
 			loadImg(_id);
+
+		});
+
+
+		var fixAnimated = function(ele, type) {
+			ele.bind('webkitAnimationEnd', function(){
+				$(this).removeClass(type);
+				$(this).unbind('webkitAnimationEnd');
+			});
+			ele.addClass(type);
+		};
+
+		// 关闭图片浏览和实现左右滑动
+		largeImg.bind('tap', function(){
+
+			$(this).removeClass('zoomIn').addClass('zoomOut');
+			setTimeout(function(){
+				largeImg.removeClass('zoomOut').hide();
+			},500);	
+
+		}).swipeLeft(function(){
+			
+			index ++;
+			if( index > imgs.length ){
+				index = 0;
+			}else{
+				loadImg(index, function(){
+					fixAnimated(showImg, 'bounceInRight');
+				});
+			}
+
+		}).swipeRight(function(){
+
+			index --;
+			if( index < 0 ){
+				index = imgs.length;
+			}else{
+				loadImg(index, function(){
+					fixAnimated(showImg, 'bounceInLeft');
+				});
+			}
+			
+		}).swipeUp(function(){
+
+			$('.desc').show();
+			fixAnimated( $('.desc'), 'fadeInUp' );
+
+		}).swipeDown(function(){
+
+			$('.desc').addClass('fadeOutDown');
+			setTimeout(function(){
+				$('.desc').removeClass('fadeOutDown').hide();
+			},500);
 		});
 
 	</script>
