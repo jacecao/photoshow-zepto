@@ -188,24 +188,23 @@
 		}).swipeLeft(function(){
 			
 			index ++;
-			if( index > imgs.length ){
+			if( index > imgs.length - 1 ){
 				index = 0;
-			}else{
-				loadImg(index, function(){
-					fixAnimated(showImg, 'bounceInRight');
-				});
 			}
+			loadImg(index, function(){
+				fixAnimated(showImg, 'bounceInRight');
+			});
+			
 
 		}).swipeRight(function(){
 
 			index --;
 			if( index < 0 ){
-				index = imgs.length;
-			}else{
-				loadImg(index, function(){
-					fixAnimated(showImg, 'bounceInLeft');
-				});
+				index = imgs.length - 1;
 			}
+			loadImg(index, function(){
+				fixAnimated(showImg, 'bounceInLeft');
+			});
 			
 		}).swipeUp(function(){
 
