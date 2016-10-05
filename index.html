@@ -48,23 +48,102 @@
 
 	<div id="large-image" class="animated show-image">
 		<img class="animated showImg" alt=""/>
-		<p class="animated desc">zhesi yigeduan</p>
+		<p class="animated desc"></p>
 	</div>
 	
 
 	<script src='js/touch.js'></script>
+	<script src='js/dialog.js'></script>
 	<script>
-
-		$.ajax({
-			url: 'data/imgdata.json',
-			dataType: 'json',
-			success: function( data ){
-				render(data);
+		var data = [
+			{
+				"minFile": "1.jpg",
+				"maxFile": "1.large.jpg",
+				"desc": "关于这幅画面的描述.........."
 			},
-			error: function( error ){
-				console.log(error);
+			{
+				"minFile": "2.jpg",
+				"maxFile": "2.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "3.jpg",
+				"maxFile": "3.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "4.jpg",
+				"maxFile": "4.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "5.jpg",
+				"maxFile": "5.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "6.jpg",
+				"maxFile": "6.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "7.jpg",
+				"maxFile": "7.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "8.jpg",
+				"maxFile": "8.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "9.jpg",
+				"maxFile": "9.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "10.jpg",
+				"maxFile": "10.large.jpg",
+				"desc": "关于这幅画面的描述.........."
+			},
+			{
+				"minFile": "11.jpg",
+				"maxFile": "11.large.jpg",
+				"desc": "关于这幅画面的描述....11......"
+			},
+			{
+				"minFile": "12.jpg",
+				"maxFile": "12.large.jpg",
+				"desc": "关于这幅画面的描述.....12....."
+			},
+			{
+				"minFile": "13.jpg",
+				"maxFile": "13.large.jpg",
+				"desc": "关于这幅画面的描述.....13....."
+			},
+			{
+				"minFile": "14.jpg",
+				"maxFile": "14.large.jpg",
+				"desc": "关于这幅画面的描述.....14....."
+			},
+			{
+				"minFile": "15.jpg",
+				"maxFile": "15.large.jpg",
+				"desc": "关于这幅画面的描述.....15....."
+			},
+			{
+				"minFile": "16.jpg",
+				"maxFile": "16.large.jpg",
+				"desc": "关于这幅画面的描述.....16....."
+			},
+			{
+				"minFile": "17.jpg",
+				"maxFile": "17.large.jpg",
+				"desc": "关于这幅画面的描述.....17....."
 			}
-		});
+		];
+		
+
 
 		var imgs = null;
 		var padding = 2;
@@ -102,13 +181,24 @@
 
 		};
 
-		render();
+		render(data);
 
 		var loadImg = function(id, callback){
 			
 			var imgSrc = 'images/'+ imgs[id].maxFile;
 			var title = imgs[id].desc;
 			var imageObj = new Image();
+			
+			// 获取当前图片的前一张和后一张的信息
+			var _preId = (id - 1) < 0 ? (imgs.length - 1) : (id - 1);
+			var _nextId = (id + 1) > (imgs.length - 1) ? 0 : (id + 1);
+			console.log(imgs.length+'+++++++++'+_preId+'+++++++++'+(typeof id)+'+++++++++'+_nextId);
+			console.log(_preId+'+++++++++'+id+'+++++++++'+_nextId);
+			var _preSrc = 'images/'+ imgs[_preId].maxFile,
+				_nextSrc = 'images/'+ imgs[_nextId].maxFile;
+			var _preImg = new Image();
+			var _nextImg = new Image();
+
 			imageObj.onload = function(){
 				var w = this.width;
 				var h = this.height;
@@ -151,6 +241,9 @@
 			};
 
 			imageObj.src = imgSrc;
+			// 预加载上下张图片
+			_preImg.src = _preSrc;
+			_nextImg.src = _nextSrc;
 
 		};
 
@@ -163,7 +256,7 @@
 				height: win.height()
 			}).show().addClass('zoomIn');
 
-			var _id = index = $(this).attr('data-id');
+			var _id = index = parseInt( $(this).attr('data-id') );
 			loadImg(_id);
 
 		});
@@ -218,6 +311,19 @@
 				$('.desc').removeClass('fadeOutDown').hide();
 			},500);
 		});
+
+		/*
+		$.ajax({
+			url: 'data/imgdata.json',
+			dataType: 'json',
+			success: function( data ){
+				render(data);
+			},
+			error: function( error ){
+				console.log(error);
+			}
+		});
+		*/
 
 	</script>
 </body>
