@@ -6,6 +6,7 @@
 	<title>Photo-show</title>
 	<script src="js/zepto.min.js"></script>
 	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="dialog/dialog.css">
 	<style type="text/css">
 		html,body,ul,p{
 			margin: 0;
@@ -37,6 +38,7 @@
     		padding: 10px;
     		font-size: 18px;
     		letter-spacing: 2px;
+    		z-index: 100;
     		display: none;
 		}
 	</style>
@@ -53,7 +55,8 @@
 	
 
 	<script src='js/touch.js'></script>
-	<script src='js/dialog.js'></script>
+	<script src='js/animate.js'></script>
+	<script src='dialog/dialog.js'></script>
 	<script>
 		var data = [
 			{
@@ -270,6 +273,21 @@
 			ele.addClass(type);
 		};
 
+		// 加入弹出框
+		var imgConfig = $('#large-image img').offset();
+		var loading = new Dialog({
+			type: 'loading',
+			width: 300,
+			height: 200,
+			css: {
+				backgroundColor: 'rgba(0,0,0,.6)'
+			}
+		});
+		var msgbox = new Dialog({
+			type: 'info',
+			width: 300,
+			showTime: 1000
+		});
 		// 关闭图片浏览和实现左右滑动
 		largeImg.bind('tap', function(){
 
@@ -282,13 +300,17 @@
 			
 			index ++;
 			if( index > imgs.length - 1 ){
-				index = 0;
+				index = imgs.length - 1;
+				$('#large-image').append(msgbox);
+				msgbox.animate({
+					opcity: 0
+				});
+			}else{
+				loadImg(index, function(){
+					fixAnimated(showImg, 'bounceInRight');
+				});
 			}
-			loadImg(index, function(){
-				fixAnimated(showImg, 'bounceInRight');
-			});
 			
-
 		}).swipeRight(function(){
 
 			index --;

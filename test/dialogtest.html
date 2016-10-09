@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<title>Photo-show</title>
+	<script src="../js/zepto.min.js"></script>
+	<link rel="stylesheet" href="../css/animate.css">
+	<link rel="stylesheet" href="../dialog/dialog.css">
+	<style type="text/css">
+		html,body,ul,p{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background: #080115;
+		}	
+		ul{
+			list-style: none;
+		}
+		li{
+			overflow: hidden;
+			float: left;
+		}
+		.show-image{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: #080115;
+			/* display: none; */
+		}
+		.desc{
+			position: absolute;
+			bottom: 33px;
+			left: 0;
+			color: white;
+    		text-align: left;
+    		padding: 10px;
+    		font-size: 18px;
+    		letter-spacing: 2px;
+    		background-color: rgba(100,100,100,.4);
+    		width: 100%;
+/*     		display: none; */
+		}
+		.showImg
+		{
+			width: 100%;
+			height: auto;
+			margin-top: 200px;
+		}
+	</style>
+</head>
+<body>
+
+	<ul id="container">
+	</ul>
+
+	<div id="large-image" class="animated show-image">
+		<img src="../images/1.large.jpg" class="animated showImg" alt=""/>
+		<p class="animated desc">testtestest</p>
+		
+		<div class="dialog">
+			<div class="dialog_mask"></div>
+			<div class='dialog_body'>
+				
+				<div class="loading">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+				</div>
+				<!--
+				<div class="dialog_header">
+					<img src="" alt="">
+				</div>
+				<div class="dialog_content">
+					<p>你想干什么你想干什么你想干什么你想干什么？</p>
+				</div>  
+				<div class="dialog_footer">
+					<button class="dialog_btn btn_success"> yes </button>
+					<button class="dialog_btn btn_default"> yes </button>
+					<button class="dialog_btn btn_warning"> no </button>
+				</div>
+				-->
+			</div>
+		</div>
+		
+	</div>
+	
+
+	<script src='../js/touch.js'></script>
+	<script src='../dialog/dialog.js'></script>
+	<script>
+		
+
+	</script>
+</body>
+</html>

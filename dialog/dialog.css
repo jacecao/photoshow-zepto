@@ -1,0 +1,223 @@
+/* 弹出框css */
+.dialog
+{
+
+}
+.dialog_mask
+{
+	position: fixed;
+	background-color: #282828;
+	bottom: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.8;
+}
+.dialog_body
+{
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: auto;
+	height: auto;
+	background-color: #000;
+}
+
+.dialog_content
+{
+	width: 85%;
+	padding: 10px;
+}
+.dialog_content p
+{
+	color: #fff;
+	text-align: justify;
+}
+/* ***********************button-css********************** */
+.dialog_btn
+{
+	padding: 4px 8px;
+	border-radius: 5px;
+	font-size: 1.2em;
+	margin-left: 10px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+.dialog_btn:first-child
+{
+	margin-left: 0;
+}
+.dialog_btn:hover
+{
+	box-shadow: 0 0 8px #3f3f3f;
+}
+.btn_default
+{
+	background-color: #fff;
+}
+.btn_default:hover
+{
+	animation: btn_default 500ms;
+}
+@keyframes btn_default {
+	0 
+	{
+		background-color: #fff;
+	}
+	50%
+	{
+		background-color: #5e5e5e;
+	}
+	100%
+	{
+		background-color: #fff;
+	}
+}
+
+.btn_success
+{
+	background-color: #3db808;
+	color: #fff;
+}
+.btn_success:hover
+{
+	animation: btn_success 500ms;
+}
+@keyframes btn_success {
+	0 
+	{
+		background-color: #3db808;
+	}
+	50%
+	{
+		background-color: #164a00;
+	}
+	100%
+	{
+		background-color: #3db808;
+	}
+}
+
+.btn_warning
+{
+	background-color: #ff5722;
+	color: #fff;
+}
+.btn_warning:hover
+{
+	animation: btn_warning 500ms;
+}
+@keyframes btn_warning {
+	0 
+	{
+		background-color: #ff5722;
+	}
+	50%
+	{
+		background-color: #ba2f03;
+	}
+	100%
+	{
+		background-color: #ff5722;
+	}
+}
+
+
+/* ******************loading***************** */
+.loading
+{
+	width: 10px;
+	height: 10px;
+	position: relative;
+	animation: loading 2s;
+	animation-iteration-count: infinite;
+}
+@keyframes loading {
+	0
+	{	
+		width: 6px;
+		height: 6px;
+		transform: rotate(0);
+	}
+	20%
+	{
+		width: 24px;
+		height: 24px;
+	}
+	50%
+	{
+		width: 36px;
+		height: 36px;
+	}
+	100%
+	{
+		width: 20px;
+		height: 20px;
+		transform: rotate(360deg);
+	}
+}
+
+.circle
+{
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	animation: circle 2s;
+	animation-iteration-count: infinite;
+}
+.circle:nth-child(1)
+{
+	top: 0;
+	left: 0;
+	background-color: #FF4444;
+}
+.circle:nth-child(2)
+{
+	left: 0;
+	bottom: 0;
+	background-color: #FFBB33;
+}
+.circle:nth-child(3)
+{
+	right: 0;
+	bottom: 0;
+	background-color: #99CC00;
+}
+.circle:nth-child(4)
+{
+	top: 0;
+	right: 0;
+	background-color: #33B5E5;
+}
+@keyframes circle {
+	0
+	{
+		width: 6px;
+		height: 6px;
+		opacity: 0;
+		transform: rotate(0);
+	}
+	20%
+	{
+		width: 12px;
+		height: 12px;
+		opacity: 0.5;
+	}
+	50%
+	{
+		width: 18px;
+		height: 18px;
+		opacity: 1;
+	}
+	100%
+	{
+		width: 10px;
+		height: 10px;
+		opacity: 0;
+		transform: rotate(360deg);
+	}
+}
