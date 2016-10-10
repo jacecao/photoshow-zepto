@@ -1,16 +1,21 @@
 // dialog 组件
 var Dialog = function( config ) {
-  var _this = this;
-  this.config = config;
-  // 默认参数设置
-  var isMask = this.config.mask || true;
-  this.config.align = config.align || 'vetically';
+
   // 默认DOM元素创建
-  var dialog = $('<div class="dialog">');
+  var _id = Math.round( ( Math.random()*1000 ) ) / 1000;
+  var id = ('dialog_component_' + _id).replace('.', '_');
+  var dialog = $('<div id="'+ id +'" class="dialog_component">');
   var dialog_mask = $('<div class="dialog_mask">');
   var dialog_body = $('<div class="dialog_body">');
+
+  // 默认参数设置
+  this.config = config;
+  this.dialog = dialog;
+  this.config.align = config.align || 'vetically';
+  var isMask = this.config.mask || true;
+
   // 是否显示遮罩
-  if ( !isMask ) {
+  if( !isMask ) {
     dialog_mask = null;
   }
 
@@ -35,6 +40,7 @@ var Dialog = function( config ) {
     case 'interactive':
       config.width && dialog_body.width( config.width );
       config.height && dialog_body.height( config.height );
+      dialog_body.append( this.interactive() );
       break; 
     default:
       loading_run();
@@ -42,7 +48,7 @@ var Dialog = function( config ) {
   }
  
   // 样式设置
-  if ( config && config.css ) {
+  if( config && config.css ) {
     dialog_body.css( config.css );
   }
 
@@ -51,7 +57,7 @@ var Dialog = function( config ) {
   dialog_body.css({borderRadius: radius+'px'});
 
   // 对齐方式设置
-  if (this.config.align) {
+  if(this.config.align) {
     switch (this.config.align) {
       case 'vetically':
         dialog_body.css({
@@ -162,6 +168,7 @@ Dialog.prototype = {
   
   // 加载提示框
   loading: function () {
+
     var loading = $('<div class="loading">');
     loading.css( {zIndex: 0} );
     loading.html(
@@ -171,14 +178,16 @@ Dialog.prototype = {
       '<div class="circle"></div>'
     );
     return loading;
+
   },
   
   // 信息提示框
   info: function () {
+
     var dialog_info = $('<div class="dialog_info">');
     var dialog_header = null;
     // 如果弹出框头部有图片设置
-    if (this.config.headerIcon || this.config.headerFontIcon) {
+    if(this.config.headerIcon || this.config.headerFontIcon) {
       dialog_header = $('<div class="dialog_header">');
       // 设置头部默认的padding
       dialog_header.css({
@@ -194,16 +203,69 @@ Dialog.prototype = {
     var dialog_content = $('<div class="dialog_content">');
     var message = this.config.text || '请在此处加入提示信息';
     var dialog_p = $('<p>'+message+'</p>');
-    if ( this.config.textCss != 'undefined' ) {
+    if( this.config.textCss != 'undefined' ) {
       dialog_p.css( this.config.textCss );
     }
     dialog_content.append( dialog_p );
     dialog_info.append( dialog_header ).append( dialog_content );
     return dialog_info;
+
   },
 
   // 交互弹框
   interactive: function () {
+
+    var dialog_footer = $('<div class="dialog_footer">');
+    // 设置底部默认样式
+    dialog_footer.css({
+      paddingBottom: '10px',
+      textAlign: 'center',
+    });
+    // 创建按钮组件
+    var button = null;
+    // 创建按钮函数
+    var creatButton = function (config) {
+      var _class = config.type;
+      var _text = config.text;
+      var button = $('<button class="dialog_btn btn_'+ _class +'">'+ _text +'</button>');
+      config.css && button.css( config.css );
+      return button;
+    };
+    // 传入的button必须是一个数组或一个对象
+    if( this.config.button.length || this.config.button.type ) {
+      // 检查this.config.button的属性
+      var _type = (this.config.button).constructor.toString().toLowerCase();
+      var type = _type.replace(/^function (\w+)\(\).+$/, '$1');
+      switch ( type ) {
+        case 'object':
+          var _button = this.config.button;
+          button = creatButton( _button );
+          break;
+        case 'array':
+          button = [];
+          $(this.config.button).each( function (index, buttonConfig) {
+            button.push( creatButton( buttonConfig ) );
+          });
+          break;
+        default:
+          console.error('the config of button, it\'s object or array ');  
+      }
+      
+    }
+    else {
+
+      button = $('<button class="dialog_btn btn_default">取消</button>');
+      var _this = this;
+      button.on('click', function() {
+        _this.dialog.trigger('hide');
+      });
+
+    }
+
+    dialog_footer.append( button );
+    var dialog_info = this.info();
+    dialog_info.append( dialog_footer );
+    return dialog_info;
 
   }
 };

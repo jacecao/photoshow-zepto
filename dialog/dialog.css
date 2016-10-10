@@ -1,10 +1,10 @@
 /* 弹出框css */
-.dialog
+.dialog_component
 {
 
 }
-.dialog_mask
-{
+.dialog_component .dialog_mask
+{ 
 	position: fixed;
 	background-color: #282828;
 	bottom: 0;
@@ -13,7 +13,7 @@
 	height: 100%;
 	opacity: 0.8;
 }
-.dialog_body
+.dialog_component .dialog_body
 {
 	position: absolute;
 	display: flex;
@@ -25,12 +25,12 @@
 	background-color: #000;
 }
 
-.dialog_content
+.dialog_component .dialog_content
 {
 	width: 85%;
 	padding: 10px;
 }
-.dialog_content p
+.dialog_component .dialog_content p
 {
 	color: #fff;
 	text-align: justify;
@@ -40,7 +40,7 @@
 {
 	padding: 4px 8px;
 	border-radius: 5px;
-	font-size: 1.2em;
+	font-size: 1em;
 	margin-left: 10px;
 	border: none;
 	outline: none;
@@ -58,7 +58,7 @@
 {
 	background-color: #fff;
 }
-.btn_default:hover
+.btn_default:hover, .btn_default_active
 {
 	animation: btn_default 500ms;
 }
@@ -82,7 +82,7 @@
 	background-color: #3db808;
 	color: #fff;
 }
-.btn_success:hover
+.btn_success:hover, .btn_success_active
 {
 	animation: btn_success 500ms;
 }
@@ -106,7 +106,7 @@
 	background-color: #ff5722;
 	color: #fff;
 }
-.btn_warning:hover
+.btn_warning:hover, .btn_warning_active
 {
 	animation: btn_warning 500ms;
 }
@@ -127,7 +127,7 @@
 
 
 /* ******************loading***************** */
-.loading
+.dialog_component .loading
 {
 	width: 10px;
 	height: 10px;
@@ -160,7 +160,7 @@
 	}
 }
 
-.circle
+.dialog_component .circle
 {
 	position: absolute;
 	width: 10px;
@@ -169,25 +169,25 @@
 	animation: circle 2s;
 	animation-iteration-count: infinite;
 }
-.circle:nth-child(1)
+.dialog_component .circle:nth-child(1)
 {
 	top: 0;
 	left: 0;
 	background-color: #FF4444;
 }
-.circle:nth-child(2)
+.dialog_component .circle:nth-child(2)
 {
 	left: 0;
 	bottom: 0;
 	background-color: #FFBB33;
 }
-.circle:nth-child(3)
+.dialog_component .circle:nth-child(3)
 {
 	right: 0;
 	bottom: 0;
 	background-color: #99CC00;
 }
-.circle:nth-child(4)
+.dialog_component .circle:nth-child(4)
 {
 	top: 0;
 	right: 0;
