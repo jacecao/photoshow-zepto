@@ -72,10 +72,27 @@
 			width: 300,
 			height: 150,
 			type: 'info',
+			textCss: {
+				color: 'pink'
+			},
+			headerIcon: '../icon/warning.png',
 			text: '这是一个信息框',
+			hide: true,
+			button: [{
+				type: 'default',
+				css: {},
+				text: '按钮'
+			}]
 		});
 		//console.log($('#large-image img').offset().top);
 		$('#large-image').append(dialog);
+		// 修改提示信息
+		dialog.trigger('setMessage','!!testtestest');
+		// 显示组件
+		dialog.trigger('show', 1000);
+		// dialog.trigger('show', function(){
+		// 	alert('test');
+		// });
 	</script>
 </body>
 </html>
