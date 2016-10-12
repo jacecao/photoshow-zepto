@@ -12,11 +12,11 @@ var Dialog = function( config ) {
   this.config = config;
   this.dialog = dialog;
   this.config.align = config.align || 'vetically';
-  var isMask = this.config.mask || true;
 
   // 是否显示遮罩
-  if( !isMask ) {
+  if( this.config.mask != undefined && !this.config.mask ) {
     dialog_mask = null;
+    console.log('sss');
   }
 
   // 创建对话框类别
@@ -215,6 +215,8 @@ Dialog.prototype = {
   // 交互弹框
   interactive: function () {
 
+    var _this = this;
+
     var dialog_footer = $('<div class="dialog_footer">');
     // 设置底部默认样式
     dialog_footer.css({
@@ -227,12 +229,44 @@ Dialog.prototype = {
     var creatButton = function (config) {
       var _class = config.type;
       var _text = config.text;
-      var button = $('<button class="dialog_btn btn_'+ _class +'">'+ _text +'</button>');
+      var className = config.className || '';
+      var button = $('<button class="dialog_btn btn_'+ _class + className +' ">'+ _text +'</button>');
       config.css && button.css( config.css );
+      // 执行回调函数,默认情况是点击按钮后隐藏弹出框
+      // 如果想保留该弹框，则需要以组数形式输入参数[callbcak,boolen]
+      if(config.callback) {
+        switch(typeof config.callback) {
+          case 'function':
+            // 隐藏掉弹框
+            button.on('tap click', function() {
+              _this.dialog.trigger('hide');
+              config.callback();
+            }); 
+            break;
+          default:
+            if(config.callback.length && typeof config.callback[0] == 'function') {
+              var _callback = config.callback[1] ? function(){
+                config.callback[0]();
+              } : function(){
+                _this.dialog.trigger('hide');
+                config.callback[0]();
+              };
+              button.on('tap click', function() {
+                _callback();
+              });
+            }
+            else {
+              console.error('"callback" of the button config , it\'s must be a array that like this [callback, boolen] or function');
+              console.error('"按钮配置中的callback，只能是数组或函数，数值中第一个值是回调函数，第二值是布尔值可省略，如果为真，那么点击后该弹出框不会隐藏');
+            }  
+        }
+      }
+
       return button;
     };
+
     // 传入的button必须是一个数组或一个对象
-    if( this.config.button.length || this.config.button.type ) {
+    if( this.config.button ) {
       // 检查this.config.button的属性
       var _type = (this.config.button).constructor.toString().toLowerCase();
       var type = _type.replace(/^function (\w+)\(\).+$/, '$1');
@@ -255,8 +289,8 @@ Dialog.prototype = {
     else {
 
       button = $('<button class="dialog_btn btn_default">取消</button>');
-      var _this = this;
-      button.on('click', function() {
+      
+      button.on('tap click', function() {
         _this.dialog.trigger('hide');
       });
 

@@ -69,19 +69,30 @@
 
 		var dialog = new Dialog({
 			mask: false,
-			width: 300,
-			height: 150,
-			type: 'interactive',
-			textCss: {
-				color: 'pink'
-			},
-			headerIcon: '../icon/warning.png',
-			text: '这是一个信息框',
-			hide: false,
-			button: {
-				type: 'success',
-				text: '确定'
-			},
+			// width: 300,
+			// height: 150,
+			type: 'loading',
+			// textCss: {
+			// 	color: 'pink'
+			// },
+			// headerIcon: '../icon/warning.png',
+			// text: '这是一个信息框',
+			// hide: false,
+			// button: {
+			// 	type: 'success',
+			// 	class: 'button_1',
+			// 	text: '确定',
+			// 	callback: function(){console.log(this);}
+			// },
+			// button: {
+			// 	type: 'warning',
+			// 	class: 'button_2',
+			// 	text: '取消',
+			// 	css: {
+			// 		backgroundColor: 'red'
+			// 	},
+			// 	callback: [function(){console.log('1');}, false]
+			// },
 			// button: [{
 			// 	type: 'default',
 			// 	css: {},
@@ -95,7 +106,7 @@
 		//console.log($('#large-image img').offset().top);
 		$('#large-image').append(dialog);
 		// 修改提示信息
-		dialog.trigger('setMessage','!!testtestest');
+		// dialog.trigger('setMessage','!!testtestest');
 		// 显示组件
 		// dialog.trigger('show', 1000);
 		// dialog.trigger('show', function(){
