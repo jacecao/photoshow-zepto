@@ -289,7 +289,7 @@ largeImg.bind('tap', function(){
 
 
 $.ajax({
-  url: 'data/imgdata.json',
+  url: '/photoshow-zepto/ata/imgdata.json',
   dataType: 'json',
   success: function( data ){
     render(data);
