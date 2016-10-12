@@ -1,93 +1,3 @@
-/*
-var data = [
-      {
-        "minFile": "1.jpg",
-        "maxFile": "1.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "2.jpg",
-        "maxFile": "2.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "3.jpg",
-        "maxFile": "3.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "4.jpg",
-        "maxFile": "4.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "5.jpg",
-        "maxFile": "5.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "6.jpg",
-        "maxFile": "6.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "7.jpg",
-        "maxFile": "7.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "8.jpg",
-        "maxFile": "8.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "9.jpg",
-        "maxFile": "9.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "10.jpg",
-        "maxFile": "10.large.jpg",
-        "desc": "关于这幅画面的描述.........."
-      },
-      {
-        "minFile": "11.jpg",
-        "maxFile": "11.large.jpg",
-        "desc": "关于这幅画面的描述....11......"
-      },
-      {
-        "minFile": "12.jpg",
-        "maxFile": "12.large.jpg",
-        "desc": "关于这幅画面的描述.....12....."
-      },
-      {
-        "minFile": "13.jpg",
-        "maxFile": "13.large.jpg",
-        "desc": "关于这幅画面的描述.....13....."
-      },
-      {
-        "minFile": "14.jpg",
-        "maxFile": "14.large.jpg",
-        "desc": "关于这幅画面的描述.....14....."
-      },
-      {
-        "minFile": "15.jpg",
-        "maxFile": "15.large.jpg",
-        "desc": "关于这幅画面的描述.....15....."
-      },
-      {
-        "minFile": "16.jpg",
-        "maxFile": "16.large.jpg",
-        "desc": "关于这幅画面的描述.....16....."
-      },
-      {
-        "minFile": "17.jpg",
-        "maxFile": "17.large.jpg",
-        "desc": "关于这幅画面的描述.....17....."
-      }
-    ];
-*/   
-// render view
 
 var imgs = null;
 var padding = 2;
@@ -126,7 +36,12 @@ var render = function( data ){
 };
 
 // render(data);
-
+var loadingBox = new Dialog({
+    type: 'loading',
+    mask: false,
+    hide: true
+});
+$('#large-image').append(loadingBox);
 var loadImg = function(id, callback){
   
   var imgSrc = 'images/'+ imgs[id].maxFile;
@@ -134,11 +49,7 @@ var loadImg = function(id, callback){
   var imageObj = new Image();
   // 加入Loading框
   // 加入弹出框
-  var loadinBox = new Dialog({
-    type: 'loading',
-    mask: false
-  });
-  $('#large-image').append(infoBox);
+  loadingBox.trigger('show');
   // 获取当前图片的前一张和后一张的信息
   var _preId = (id - 1) < 0 ? (imgs.length - 1) : (id - 1);
   var _nextId = (id + 1) > (imgs.length - 1) ? 0 : (id + 1);
@@ -150,7 +61,7 @@ var loadImg = function(id, callback){
   var _nextImg = new Image();
 
   imageObj.onload = function(){
-    loadinBox.trigger('hide');
+    loadingBox.trigger('hide');
     var w = this.width;
     var h = this.height;
     var winW = win.width();
@@ -289,7 +200,7 @@ largeImg.bind('tap', function(){
 
 
 $.ajax({
-  url: '/photoshow-zepto/ata/imgdata.json',
+  url: 'data/imgdata.json',
   dataType: 'json',
   success: function( data ){
     render(data);

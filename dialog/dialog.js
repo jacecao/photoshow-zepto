@@ -3,8 +3,10 @@ var Dialog = function( config ) {
 
   // 默认DOM元素创建
   var _id = Math.round( ( Math.random()*1000 ) ) / 1000;
+  var _type = config.type ? config.type : 'loading';
+  var _class = 'dialog_component_' + _type;
   var id = ('dialog_component_' + _id).replace('.', '_');
-  var dialog = $('<div id="'+ id +'" class="dialog_component">');
+  var dialog = $('<div id="'+ id +'" class="dialog_component '+ _class +'">');
   var dialog_mask = $('<div class="dialog_mask">');
   var dialog_body = $('<div class="dialog_body">');
 
