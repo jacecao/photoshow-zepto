@@ -2,7 +2,7 @@
 var imgs = null;
 var padding = 2;
 var column = 4;
-var win = $(window);
+var win = $(body);
 var container = $('#container');
 var showImg = $('.showImg');
 var largeImg = $('#large-image');
@@ -16,7 +16,7 @@ var render = function( data ){
   imgs = data;
   for( var i = 0; i < data.length; i++ ){
     var p = ( (i+1)%column === 1? 0 : padding );
-    var imgSrc = 'images/'+ data[i].minFile;
+    var imgSrc = 'docs/images/'+ data[i].minFile;
     model += '<li data-id="'+i+'" class="animated zoomIn" style="width:'+liWidth+'px; height:'+liWidth+'px; padding-left:'+ p +'px;padding-top:'+ padding +'px;"><canvas id="cvs_'+ i +'"></canvas></li>';
     
     var imageObj = new Image();
@@ -44,7 +44,7 @@ var loadingBox = new Dialog({
 $('#large-image').append(loadingBox);
 var loadImg = function(id, callback){
   
-  var imgSrc = 'images/'+ imgs[id].maxFile;
+  var imgSrc = 'docs/images/'+ imgs[id].maxFile;
   var title = imgs[id].desc;
   var imageObj = new Image();
   // 加入Loading框
@@ -55,8 +55,8 @@ var loadImg = function(id, callback){
   var _nextId = (id + 1) > (imgs.length - 1) ? 0 : (id + 1);
   //console.log(imgs.length+'+++++++++'+_preId+'+++++++++'+(typeof id)+'+++++++++'+_nextId);
   //console.log(_preId+'+++++++++'+id+'+++++++++'+_nextId);
-  var _preSrc = 'images/'+ imgs[_preId].maxFile,
-    _nextSrc = 'images/'+ imgs[_nextId].maxFile;
+  var _preSrc = 'docs/images/'+ imgs[_preId].maxFile,
+    _nextSrc = 'docs/images/'+ imgs[_nextId].maxFile;
   var _preImg = new Image();
   var _nextImg = new Image();
 
